@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import axios from 'axios';
 import TableRows from './TableRows';
 import { IPost } from './types/types';
+import ReactToExcel from 'react-html-table-to-excel';
 
-const TablePage = () => {
+const TablePage: FC = () => {
     const [posts, setPosts] = useState<IPost[]>([]);
 
     useEffect(() => {
@@ -20,7 +21,8 @@ const TablePage = () => {
       }
 
     return (
-        <table>
+        <div>
+            <table id="table-to-excel">
             <thead>
                 <tr>
                     <td>userId</td>
@@ -30,7 +32,14 @@ const TablePage = () => {
                 </tr>
             </thead>
             <TableRows posts={posts}/>
-        </table>
+            </table>
+            <ReactToExcel
+                table="table-to-excel"
+                filename="Posts"
+                sheet="sheet 1"
+                buttonText="EXPORT"
+            />
+        </div>
     )
 }
 
